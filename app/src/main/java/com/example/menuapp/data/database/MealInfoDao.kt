@@ -1,9 +1,14 @@
 package com.example.menuapp.data.database
 
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 interface MealInfoDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(meals: List<MealDbModel>)
+
     @Query("SELECT category FROM meal_list")
     fun getMealCategories(): Flow<List<String>>
 
