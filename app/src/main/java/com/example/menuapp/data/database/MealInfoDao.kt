@@ -11,6 +11,9 @@ interface MealInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(meals: List<MealDbModel>)
 
+    @Query("DELETE FROM meal_list")
+    suspend fun deleteAllData()
+
     @Query("SELECT category FROM meal_list")
     fun getMealCategories(): Flow<List<String>>
 

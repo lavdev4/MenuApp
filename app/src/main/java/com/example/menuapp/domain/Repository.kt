@@ -10,4 +10,6 @@ interface Repository {
     fun getMealsByCategory(category: String): Flow<List<MealEntity>>
 
     suspend fun loadData()
+
+    suspend fun deleteData()
 }

@@ -40,4 +40,8 @@ class RepositoryImpl @Inject constructor(
                     ?.let { dao.insert(it) }
             }
     }
+
+    override suspend fun deleteData() {
+        dao.deleteAllData()
+    }
 }
