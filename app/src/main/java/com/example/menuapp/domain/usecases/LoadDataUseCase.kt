@@ -7,5 +7,5 @@ class LoadDataUseCase @Inject constructor(
     private val repository: Repository
 ) {
 
-    operator fun invoke() = repository.loadData()
+    suspend operator fun invoke() = repository.loadData()
 }

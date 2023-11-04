@@ -9,5 +9,5 @@ interface Repository {
 
     fun getMealsByCategory(category: String): Flow<List<MealEntity>>
 
-    fun loadData()
+    suspend fun loadData()
 }
