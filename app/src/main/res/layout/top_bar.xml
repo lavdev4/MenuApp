@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    app:contentInsetStart="0dp">
+
+    <Spinner
+        android:layout_width="91dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="start"
+        android:background="@drawable/background_spinner"
+        android:entries="@array/cities"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="end"
+        android:background="null"
+        android:src="@drawable/icon_qr_code"/>
+</androidx.appcompat.widget.Toolbar>

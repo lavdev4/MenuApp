@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MenuApp</string>
+    <string name="bottom_bar_icon_1">Меню</string>
+    <string name="bottom_bar_icon_2">Профиль</string>
+    <string name="bottom_bar_icon_3">Корзина</string>
+    <string name="meal_price">от 345 р</string>
+
+    <string-array name="cities">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Екатеринбург</item>
+    </string-array>
 </resources>
