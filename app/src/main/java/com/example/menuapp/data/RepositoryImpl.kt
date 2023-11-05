@@ -29,7 +29,9 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun loadData() {
         apiService.getCategories().categoriesContainers
-            ?.sortedBy { it.id }
+            ?.filter { it.name != null }
+            ?.take(7)
+            ?.sortedBy { it.name }
             ?.mapNotNull { it.name }
             ?.forEach { category ->
                 apiService.getMealsByCategory(category).mealContainers
