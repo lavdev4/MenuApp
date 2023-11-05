@@ -5,11 +5,9 @@
         android:title="@string/bottom_bar_icon_1"
         android:icon="@drawable/icon_menu"/>
     <item
-
         android:title="@string/bottom_bar_icon_2"
         android:icon="@drawable/icon_profile"/>
     <item
-
         android:title="@string/bottom_bar_icon_3"
         android:icon="@drawable/icon_cart"/>
 </menu>

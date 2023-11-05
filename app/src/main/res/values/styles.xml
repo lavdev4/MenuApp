@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="BottomBarTextAppearanceActive">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BottomBarTextAppearanceInactive">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BottomBarActiveIndicatorStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+
+    </style>
+</resources>

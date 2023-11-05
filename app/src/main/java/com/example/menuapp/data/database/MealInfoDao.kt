@@ -14,7 +14,7 @@ interface MealInfoDao {
     @Query("DELETE FROM meal_list")
     suspend fun deleteAllData()
 
-    @Query("SELECT category FROM meal_list")
+    @Query("SELECT DISTINCT category FROM meal_list")
     fun getMealCategories(): Flow<List<String>>
 
     @Query("SELECT * FROM meal_list WHERE category = :category")

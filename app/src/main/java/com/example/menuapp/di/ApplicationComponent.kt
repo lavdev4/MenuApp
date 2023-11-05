@@ -3,12 +3,13 @@ package com.example.menuapp.di
 import android.content.Context
 import com.example.menuapp.di.annotations.ApplicationScope
 import com.example.menuapp.di.modules.DataModule
+import com.example.menuapp.di.modules.ViewModelModule
 import com.example.menuapp.presentation.MenuApplication
 import dagger.BindsInstance
 import dagger.Component
 
 @ApplicationScope
-@Component(modules = [DataModule::class])
+@Component(modules = [DataModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 
     fun inject(app: MenuApplication)

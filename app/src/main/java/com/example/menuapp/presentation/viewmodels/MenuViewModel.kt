@@ -3,6 +3,7 @@ package com.example.menuapp.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.menuapp.domain.entities.MealEntity
+import com.example.menuapp.domain.usecases.DeleteDataUseCase
 import com.example.menuapp.domain.usecases.GetMealCategoriesUseCase
 import com.example.menuapp.domain.usecases.GetMealsByCategoryUseCase
 import com.example.menuapp.domain.usecases.LoadDataUseCase
@@ -12,17 +13,17 @@ import javax.inject.Inject
 
 class MenuViewModel @Inject constructor(
     private val loadDataUseCase: LoadDataUseCase,
-    private val deleteDataUseCase: LoadDataUseCase,
+    private val deleteDataUseCase: DeleteDataUseCase,
     private val getMealCategoriesUseCase: GetMealCategoriesUseCase,
     private val getMealsByCategoryUseCase: GetMealsByCategoryUseCase
 ) : ViewModel() {
 
     fun loadData() {
-        viewModelScope.launch { loadDataUseCase }
+        viewModelScope.launch { loadDataUseCase() }
     }
 
     fun deleteData() {
-        viewModelScope.launch { deleteDataUseCase }
+        viewModelScope.launch { deleteDataUseCase() }
     }
 
     fun getCategories(): Flow<List<String>> {
