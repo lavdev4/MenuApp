@@ -62,7 +62,6 @@
                 android:id="@+id/categories"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:maxHeight="72dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
                 android:overScrollMode="never"

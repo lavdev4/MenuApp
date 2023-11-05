@@ -47,8 +47,11 @@ class CategoriesAdapter(
     inner class CategoriesViewHolder(val binding: ItemCategoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener {
-                onItemSelectedCallback(getItem(adapterPosition))
+            binding.category.setOnCheckedChangeListener { button, checked ->
+                if (checked) {
+                    onItemSelectedCallback(getItem(adapterPosition))
+                    button.elevation = 0f
+                } else button.elevation = 15f
             }
         }
     }

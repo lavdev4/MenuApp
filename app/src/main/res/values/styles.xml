@@ -10,6 +10,10 @@
     </style>
 
     <style name="BottomBarActiveIndicatorStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+    </style>
+
+    <style name="CategoriesCardTextAppearance">
+        <item name="android:textSize">13sp</item>
 
     </style>
 </resources>
