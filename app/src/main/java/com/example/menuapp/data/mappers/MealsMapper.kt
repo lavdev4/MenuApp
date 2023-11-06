@@ -2,6 +2,7 @@ package com.example.menuapp.data.mappers
 
 import com.example.menuapp.data.database.MealDbModel
 import com.example.menuapp.data.network.model.MealInfoDto
+import com.example.menuapp.domain.entities.CategoryEntity
 import com.example.menuapp.domain.entities.MealEntity
 import javax.inject.Inject
 
@@ -28,5 +29,9 @@ class MealsMapper @Inject constructor() {
             )
         }
         return null
+    }
+
+    fun mapCategoryStrToCategoryEntity(categoryStr: String): CategoryEntity {
+        return CategoryEntity(name = categoryStr, selected = false)
     }
 }

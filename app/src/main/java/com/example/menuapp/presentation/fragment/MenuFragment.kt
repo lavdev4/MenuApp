@@ -16,6 +16,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.menuapp.R
 import com.example.menuapp.databinding.FragmentMenuBinding
 import com.example.menuapp.presentation.MainActivity
@@ -64,11 +65,11 @@ class MenuFragment : Fragment() {
     }
 
     private fun observeCategories() {
-        val categoriesAdapter = CategoriesAdapter {
-
+        val categoriesAdapter = CategoriesAdapter(context) {
+            viewModel.setSelectedCategory(it)
         }
         with(binding.categories) {
-            val orientation = LinearLayoutManager.HORIZONTAL
+            val orientation = RecyclerView.HORIZONTAL
             val divider = DividerItemDecoration(context, orientation)
             val dividerDrawable = ContextCompat
                 .getDrawable(context, R.drawable.divider_categories_list)
@@ -94,7 +95,7 @@ class MenuFragment : Fragment() {
     private fun observeMeals() {
         val mealsAdapter = MealsAdapter()
         with(binding.mealsList) {
-            val orientation = LinearLayoutManager.VERTICAL
+            val orientation = RecyclerView.VERTICAL
             val divider = DividerItemDecoration(context, orientation)
             val dividerDrawable = ContextCompat
                 .getDrawable(context, R.drawable.divider_meals_list)
@@ -108,8 +109,7 @@ class MenuFragment : Fragment() {
             adapter = mealsAdapter
         }
         lifecycleScope.launch {
-            // TODO: stub
-            viewModel.getMeals("Beef")
+            viewModel.getMeals()
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     Log.d("app", "meals: " + it.size)

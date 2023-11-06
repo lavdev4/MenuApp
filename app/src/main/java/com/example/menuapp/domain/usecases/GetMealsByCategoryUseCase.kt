@@ -7,5 +7,5 @@ class GetMealsByCategoryUseCase @Inject constructor(
     private val repository: Repository
 ) {
 
-    operator fun invoke(category: String) = repository.getMealsByCategory(category)
+    suspend operator fun invoke(category: String) = repository.getMealsByCategory(category)
 }

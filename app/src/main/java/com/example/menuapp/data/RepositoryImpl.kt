@@ -5,6 +5,7 @@ import com.example.menuapp.data.mappers.MealsMapper
 import com.example.menuapp.data.network.ApiService
 import com.example.menuapp.di.annotations.ApplicationScope
 import com.example.menuapp.domain.Repository
+import com.example.menuapp.domain.entities.CategoryEntity
 import com.example.menuapp.domain.entities.MealEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,13 +18,15 @@ class RepositoryImpl @Inject constructor(
     private val mapper: MealsMapper,
 ) : Repository {
 
-    override fun getMealCategories(): Flow<List<String>> {
-        return dao.getMealCategories()
+    override fun getMealCategories(): Flow<List<CategoryEntity>> {
+        return dao.getMealCategories().map { dbModels ->
+            dbModels.map { mapper.mapCategoryStrToCategoryEntity(it) }
+        }
     }
 
-    override fun getMealsByCategory(category: String): Flow<List<MealEntity>> {
+    override suspend fun getMealsByCategory(category: String): List<MealEntity> {
         return dao.getMealsByCategory(category).map { dbModels ->
-            dbModels.map { mapper.mapMealDbModelToMealEntity(it) }
+            mapper.mapMealDbModelToMealEntity(dbModels)
         }
     }
 

@@ -1,17 +1,22 @@
 package com.example.menuapp.presentation.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.menuapp.R
 import com.example.menuapp.databinding.ItemCategoriesBinding
+import com.example.menuapp.domain.entities.CategoryEntity
 
 class CategoriesAdapter(
+    private val context: Context?,
     private val onItemSelectedCallback: (
         itemName: String
     ) -> Unit
-) : ListAdapter<String, CategoriesAdapter.CategoriesViewHolder>(CategoriesDiffUtil()) {
+) : ListAdapter<CategoryEntity, CategoriesAdapter.CategoriesViewHolder>(CategoriesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
         val binding = ItemCategoriesBinding.inflate(
@@ -23,8 +28,24 @@ class CategoriesAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
+        context ?: throw RuntimeException("Provided context is null")
         val item = getItem(position)
-        holder.binding.category.text = item
+        holder.binding.category.text = item.name
+        if (item.selected) {
+            holder.binding.category
+                .setTextColor(ContextCompat.getColor(context, R.color.pink))
+            with(holder.binding.categoryContainer) {
+                setCardBackgroundColor(ContextCompat.getColor(context, R.color.light_pink))
+                elevation = 0.0f
+            }
+        } else {
+            holder.binding.category
+                .setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+            with(holder.binding.categoryContainer) {
+                setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                elevation = 16.0f
+            }
+        }
     }
 
 //    override fun onBindViewHolder(
@@ -47,36 +68,19 @@ class CategoriesAdapter(
     inner class CategoriesViewHolder(val binding: ItemCategoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.category.setOnCheckedChangeListener { button, checked ->
-                if (checked) {
-                    onItemSelectedCallback(getItem(adapterPosition))
-                    button.elevation = 0f
-                } else button.elevation = 15f
+            binding.root.setOnClickListener {
+                onItemSelectedCallback(getItem(adapterPosition).name)
             }
         }
     }
 
-    private class CategoriesDiffUtil : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
+    private class CategoriesDiffUtil : DiffUtil.ItemCallback<CategoryEntity>() {
+        override fun areItemsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity): Boolean {
+            return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity): Boolean {
+            return oldItem.selected == newItem.selected
         }
-
-//        override fun getChangePayload(oldItem: Data, newItem: Data): Any {
-//            return Bundle().apply {
-//                putString(PAYLOAD_PARAMETER_1, newItem.parameter1)
-//                putBoolean(PAYLOAD_PARAMETER_2, newItem.parameter2)
-//                putBoolean(PAYLOAD_PARAMETER_3, newItem.parameter3)
-//            }
-//        }
     }
-
-//    companion object {
-//        const val PAYLOAD_PARAMETER_1 = "param1"
-//        const val PAYLOAD_PARAMETER_2 = "param2"
-//        const val PAYLOAD_PARAMETER_3 = "param3"
-//    }
 }

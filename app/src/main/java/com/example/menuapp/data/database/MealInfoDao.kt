@@ -18,5 +18,5 @@ interface MealInfoDao {
     fun getMealCategories(): Flow<List<String>>
 
     @Query("SELECT * FROM meal_list WHERE category = :category")
-    fun getMealsByCategory(category: String): Flow<List<MealDbModel>>
+    suspend fun getMealsByCategory(category: String): List<MealDbModel>
 }
