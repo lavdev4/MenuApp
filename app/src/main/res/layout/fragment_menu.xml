@@ -11,14 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         app:contentInsetStart="0dp">
 
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="88dp"
             android:layout_height="24dp"
-            android:layout_marginStart="16dp"
             android:layout_gravity="start"
-            android:entries="@array/cities"/>
+            android:layout_marginStart="16dp"
+            android:theme="@style/SpinnerTheme"
+            android:background="@drawable/background_spinner"
+            android:entries="@array/cities" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -32,13 +35,14 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/fragment_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:liftOnScroll="true">
+            app:liftOnScroll="true"
+            app:liftOnScrollColor="@android:color/white">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -46,36 +50,29 @@
                 app:contentScrim="@android:color/transparent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <include
-                    layout="@layout/banner"/>
+                <include layout="@layout/banner" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categories"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="80dp"
                 android:clipToPadding="false"
-                android:paddingHorizontal="16dp"
                 android:overScrollMode="never"
+                android:paddingHorizontal="16dp"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_categories" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/meals_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                tools:itemCount="10"
-                tools:listitem="@layout/item_meals_list" />
-        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/meals_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_meals_list" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
 

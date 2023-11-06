@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,10 +49,7 @@ class MenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        if (checkForInternetConnection(context)) {
-//            viewModel.deleteData()
-//            viewModel.loadData()
-//        }
+        if (checkForInternetConnection(context)) { updateData() }
         observeCategories()
         observeMeals()
         super.onViewCreated(view, savedInstanceState)
@@ -65,6 +61,24 @@ class MenuFragment : Fragment() {
     }
 
     private fun observeCategories() {
+        val adapter = createCategoriesAdapter()
+        lifecycleScope.launch {
+            viewModel.getCategories()
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect { adapter.submitList(it) }
+        }
+    }
+
+    private fun observeMeals() {
+        val adapter = createMealsAdapter()
+        lifecycleScope.launch {
+            viewModel.getMeals()
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect { adapter.submitList(it) }
+        }
+    }
+
+    private fun createCategoriesAdapter(): CategoriesAdapter {
         val categoriesAdapter = CategoriesAdapter(context) {
             viewModel.setSelectedCategory(it)
         }
@@ -82,17 +96,10 @@ class MenuFragment : Fragment() {
             addItemDecoration(divider)
             adapter = categoriesAdapter
         }
-        lifecycleScope.launch {
-            viewModel.getCategories()
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect {
-                    Log.d("app", "categories: " + it.size)
-                    categoriesAdapter.submitList(it)
-                }
-        }
+        return categoriesAdapter
     }
 
-    private fun observeMeals() {
+    private fun createMealsAdapter(): MealsAdapter {
         val mealsAdapter = MealsAdapter()
         with(binding.mealsList) {
             val orientation = RecyclerView.VERTICAL
@@ -108,14 +115,7 @@ class MenuFragment : Fragment() {
             addItemDecoration(divider)
             adapter = mealsAdapter
         }
-        lifecycleScope.launch {
-            viewModel.getMeals()
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect {
-                    Log.d("app", "meals: " + it.size)
-                    mealsAdapter.submitList(it)
-                }
-        }
+        return mealsAdapter
     }
 
     private fun checkForInternetConnection(context: Context?): Boolean {
@@ -129,5 +129,10 @@ class MenuFragment : Fragment() {
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
             else -> false
         }
+    }
+
+    private fun updateData() {
+        viewModel.deleteData()
+        viewModel.loadData()
     }
 }

@@ -29,23 +29,6 @@ class MealsAdapter : ListAdapter<MealEntity, MealsAdapter.MealsViewHolder>(Meals
         }
     }
 
-//    override fun onBindViewHolder(
-//        holder: ExampleViewHolder,
-//        position: Int,
-//        payloads: MutableList<Any>,
-//    ) {
-//        if (payloads.isNotEmpty()) {
-//            val bundle = (payloads[0] as Bundle)
-//            with(holder.binding) {
-//                textView.text = bundle.getBoolean(PAYLOAD_PARAMETER_1)
-//                switch.isChecked = bundle.getBoolean(PAYLOAD_PARAMETER_2)
-//                button.isEnabled = bundle.getBoolean(PAYLOAD_PARAMETER_3)
-//            }
-//        } else {
-//            super.onBindViewHolder(holder, position, payloads)
-//        }
-//    }
-
     inner class MealsViewHolder(val binding: ItemMealsListBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -60,19 +43,5 @@ class MealsAdapter : ListAdapter<MealEntity, MealsAdapter.MealsViewHolder>(Meals
                     (oldItem.category == newItem.category) &&
                     (oldItem.img == newItem.img)
         }
-
-//        override fun getChangePayload(oldItem: Data, newItem: Data): Any {
-//            return Bundle().apply {
-//                putString(PAYLOAD_PARAMETER_1, newItem.parameter1)
-//                putBoolean(PAYLOAD_PARAMETER_2, newItem.parameter2)
-//                putBoolean(PAYLOAD_PARAMETER_3, newItem.parameter3)
-//            }
-//        }
     }
-
-//    companion object {
-//        const val PAYLOAD_PARAMETER_1 = "param1"
-//        const val PAYLOAD_PARAMETER_2 = "param2"
-//        const val PAYLOAD_PARAMETER_3 = "param3"
-//    }
 }

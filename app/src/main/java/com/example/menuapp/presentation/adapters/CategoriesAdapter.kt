@@ -28,42 +28,10 @@ class CategoriesAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-        context ?: throw RuntimeException("Provided context is null")
         val item = getItem(position)
         holder.binding.category.text = item.name
-        if (item.selected) {
-            holder.binding.category
-                .setTextColor(ContextCompat.getColor(context, R.color.pink))
-            with(holder.binding.categoryContainer) {
-                setCardBackgroundColor(ContextCompat.getColor(context, R.color.light_pink))
-                elevation = 0.0f
-            }
-        } else {
-            holder.binding.category
-                .setTextColor(ContextCompat.getColor(context, R.color.light_gray))
-            with(holder.binding.categoryContainer) {
-                setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
-                elevation = 16.0f
-            }
-        }
+        if (item.selected) setCategorySelected(holder) else setCategoryUnselected(holder)
     }
-
-//    override fun onBindViewHolder(
-//        holder: ExampleViewHolder,
-//        position: Int,
-//        payloads: MutableList<Any>,
-//    ) {
-//        if (payloads.isNotEmpty()) {
-//            val bundle = (payloads[0] as Bundle)
-//            with(holder.binding) {
-//                textView.text = bundle.getBoolean(PAYLOAD_PARAMETER_1)
-//                switch.isChecked = bundle.getBoolean(PAYLOAD_PARAMETER_2)
-//                button.isEnabled = bundle.getBoolean(PAYLOAD_PARAMETER_3)
-//            }
-//        } else {
-//            super.onBindViewHolder(holder, position, payloads)
-//        }
-//    }
 
     inner class CategoriesViewHolder(val binding: ItemCategoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -81,6 +49,26 @@ class CategoriesAdapter(
 
         override fun areContentsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity): Boolean {
             return oldItem.selected == newItem.selected
+        }
+    }
+
+    private fun setCategorySelected(holder: CategoriesViewHolder) {
+        context ?: throw RuntimeException("Provided context is null")
+        holder.binding.category
+            .setTextColor(ContextCompat.getColor(context, R.color.pink))
+        with(holder.binding.categoryContainer) {
+            setCardBackgroundColor(ContextCompat.getColor(context, R.color.light_pink))
+            elevation = 0.0f
+        }
+    }
+
+    private fun setCategoryUnselected(holder: CategoriesViewHolder) {
+        context ?: throw RuntimeException("Provided context is null")
+        holder.binding.category
+            .setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+        with(holder.binding.categoryContainer) {
+            setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            elevation = 16.0f
         }
     }
 }

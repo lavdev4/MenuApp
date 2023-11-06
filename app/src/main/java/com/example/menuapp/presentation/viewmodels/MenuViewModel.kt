@@ -62,7 +62,9 @@ class MenuViewModel @Inject constructor(
     fun getCategories(): Flow<List<CategoryEntity>> {
         return getMealCategoriesUseCase()
             .onEach {
-                if (selectedCategory == null) selectedCategory = it.first().name
+                if (selectedCategory == null && it.isNotEmpty()) {
+                    selectedCategory = it.first().name
+                }
                 setMeals()
             }
             .map { currentEmit ->
