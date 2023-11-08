@@ -12,3 +12,5 @@
 
 ## Использованные инструменты:
 Clean Architecture, MVVM, Dagger, Room, Retrofit, Picasso, Kotlin Coroutines, Kotlin Flow, Coordinator Layout
+
+API: https://www.themealdb.com/api.php
