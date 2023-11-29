@@ -13,5 +13,5 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MenuViewModel::class)
     @Binds
-    abstract fun bindCoinPriceListViewModel(impl: MenuViewModel): ViewModel
+    abstract fun bindMenuViewModel(impl: MenuViewModel): ViewModel
 }
