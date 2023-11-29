@@ -4,6 +4,9 @@
     <string name="bottom_bar_icon_2">Профиль</string>
     <string name="bottom_bar_icon_3">Корзина</string>
     <string name="meal_price">от 345 р</string>
+    <string name="no_interntet_toast">Нет интернет соединения.</string>
+    <string name="error_toast_text">Ошибка: %1$s</string>
+
 
     <string-array name="cities">
         <item>Москва</item>

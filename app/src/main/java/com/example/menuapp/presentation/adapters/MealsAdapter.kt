@@ -38,10 +38,7 @@ class MealsAdapter : ListAdapter<MealEntity, MealsAdapter.MealsViewHolder>(Meals
         }
 
         override fun areContentsTheSame(oldItem: MealEntity, newItem: MealEntity): Boolean {
-            return (oldItem.name == newItem.name) &&
-                    (oldItem.instruction == newItem.instruction) &&
-                    (oldItem.category == newItem.category) &&
-                    (oldItem.img == newItem.img)
+            return oldItem == newItem
         }
     }
 }

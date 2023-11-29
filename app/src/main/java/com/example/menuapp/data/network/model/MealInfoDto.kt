@@ -1,22 +1,24 @@
 package com.example.menuapp.data.network.model
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlin.reflect.full.declaredMemberProperties
 
 data class MealInfoDto(
     @SerializedName("idMeal")
-    @Expose
     val id: Int?,
     @SerializedName("strMeal")
-    @Expose
     val name: String?,
     @SerializedName("strCategory")
-    @Expose
     val category: String?,
     @SerializedName("strMealThumb")
-    @Expose
     val img: String?,
     @SerializedName("strInstructions")
-    @Expose
-    val instruction: String?
-)
+    val instruction: String?) {
+
+    fun hasNonNullAttributes(): Boolean {
+        return this::class.declaredMemberProperties.all { it.getter.call(this) != null }
+    }
+}
+
+
+

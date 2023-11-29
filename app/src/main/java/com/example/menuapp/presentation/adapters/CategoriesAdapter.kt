@@ -1,18 +1,18 @@
 package com.example.menuapp.presentation.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.menuapp.R
 import com.example.menuapp.databinding.ItemCategoriesBinding
 import com.example.menuapp.domain.entities.CategoryEntity
 
 class CategoriesAdapter(
-    private val context: Context?,
+    private val colorTextSelected: Int,
+    private val colorBackgroundSelected: Int,
+    private val colorTextUnselected: Int,
+    private val colorBackgroundUnselected: Int,
     private val onItemSelectedCallback: (
         itemName: String
     ) -> Unit
@@ -30,7 +30,7 @@ class CategoriesAdapter(
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.category.text = item.name
-        if (item.selected) setCategorySelected(holder) else setCategoryUnselected(holder)
+        setCategorySelected(item.selected, holder)
     }
 
     inner class CategoriesViewHolder(val binding: ItemCategoriesBinding) :
@@ -48,27 +48,18 @@ class CategoriesAdapter(
         }
 
         override fun areContentsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity): Boolean {
-            return oldItem.selected == newItem.selected
+            return oldItem == newItem
         }
     }
 
-    private fun setCategorySelected(holder: CategoriesViewHolder) {
-        context ?: throw RuntimeException("Provided context is null")
-        holder.binding.category
-            .setTextColor(ContextCompat.getColor(context, R.color.pink))
+    private fun setCategorySelected(selected: Boolean, holder: CategoriesViewHolder) {
+        val textColor = if (selected) colorTextSelected else colorTextUnselected
+        val backGroundColor = if (selected) colorBackgroundSelected else colorBackgroundUnselected
+        val elevation = if (selected) 0.0f else 16.0f
+        holder.binding.category.setTextColor(textColor)
         with(holder.binding.categoryContainer) {
-            setCardBackgroundColor(ContextCompat.getColor(context, R.color.light_pink))
-            elevation = 0.0f
-        }
-    }
-
-    private fun setCategoryUnselected(holder: CategoriesViewHolder) {
-        context ?: throw RuntimeException("Provided context is null")
-        holder.binding.category
-            .setTextColor(ContextCompat.getColor(context, R.color.light_gray))
-        with(holder.binding.categoryContainer) {
-            setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
-            elevation = 16.0f
+            setCardBackgroundColor(backGroundColor)
+            this.elevation = elevation
         }
     }
 }

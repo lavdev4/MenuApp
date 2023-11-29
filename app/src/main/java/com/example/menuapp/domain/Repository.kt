@@ -1,6 +1,8 @@
 package com.example.menuapp.domain
 
+import androidx.lifecycle.LiveData
 import com.example.menuapp.domain.entities.CategoryEntity
+import com.example.menuapp.domain.entities.LoadResultEntity
 import com.example.menuapp.domain.entities.MealEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -10,7 +12,5 @@ interface Repository {
 
     suspend fun getMealsByCategory(category: String): List<MealEntity>
 
-    suspend fun loadData()
-
-    suspend fun deleteData()
+    fun updateData(): LiveData<LoadResultEntity>
 }

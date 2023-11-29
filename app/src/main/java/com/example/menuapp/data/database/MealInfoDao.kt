@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MealInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(meals: List<MealDbModel>)
+    fun insert(meals: List<MealDbModel>)
 
     @Query("DELETE FROM meal_list")
-    suspend fun deleteAllData()
+    fun deleteAllData()
 
     @Query("SELECT DISTINCT category FROM meal_list")
     fun getMealCategories(): Flow<List<String>>

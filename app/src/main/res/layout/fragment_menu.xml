@@ -19,23 +19,33 @@
             android:layout_height="24dp"
             android:layout_gravity="start"
             android:layout_marginStart="16dp"
-            android:theme="@style/SpinnerTheme"
             android:background="@drawable/background_spinner"
-            android:entries="@array/cities" />
+            android:entries="@array/cities"
+            android:theme="@style/SpinnerTheme" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/icon_qr_code"/>
+            android:src="@drawable/icon_qr_code" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/fragment_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/pink"
+            android:indeterminateTintMode="src_atop"
+            android:visibility="gone" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -63,7 +73,6 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/item_categories" />
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/meals_list"

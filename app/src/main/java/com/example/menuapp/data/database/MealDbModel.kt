@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class MealDbModel(
     @PrimaryKey
     val id: Int,
-    val name: String?,
-    val category: String?,
-    val img: String?,
-    val instruction: String?,
+    val name: String,
+    val category: String,
+    val img: String,
+    val instruction: String,
 )

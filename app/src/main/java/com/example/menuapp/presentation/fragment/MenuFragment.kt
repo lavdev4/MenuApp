@@ -1,12 +1,11 @@
 package com.example.menuapp.presentation.fragment
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,11 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.menuapp.R
 import com.example.menuapp.databinding.FragmentMenuBinding
+import com.example.menuapp.domain.entities.LoadResultEntity
 import com.example.menuapp.presentation.MainActivity
 import com.example.menuapp.presentation.adapters.CategoriesAdapter
 import com.example.menuapp.presentation.adapters.MealsAdapter
 import com.example.menuapp.presentation.viewmodels.AppViewModelFactory
 import com.example.menuapp.presentation.viewmodels.MenuViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,10 +50,10 @@ class MenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (checkForInternetConnection(context)) { updateData() }
+        super.onViewCreated(view, savedInstanceState)
+        observeDataLoad()
         observeCategories()
         observeMeals()
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
@@ -60,28 +61,42 @@ class MenuFragment : Fragment() {
         _binding = null
     }
 
+    private fun observeDataLoad() {
+        viewModel.dataLoadObservable.observe(viewLifecycleOwner) {
+            when (it) {
+                LoadResultEntity.LoadStarted -> showProgress(true)
+                LoadResultEntity.Loaded -> showProgress(false)
+                is LoadResultEntity.Failed -> showToast(getString(R.string.error_toast_text, it.message))
+                else -> {}
+            }
+        }
+    }
+
     private fun observeCategories() {
         val adapter = createCategoriesAdapter()
         lifecycleScope.launch {
-            viewModel.getCategories()
+            viewModel.categoriesFlow
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect { adapter.submitList(it) }
+                .collectLatest { adapter.submitList(it) }
         }
     }
 
     private fun observeMeals() {
         val adapter = createMealsAdapter()
         lifecycleScope.launch {
-            viewModel.getMeals()
+            viewModel.mealsFlow
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect { adapter.submitList(it) }
+                .collectLatest { adapter.submitList(it) }
         }
     }
 
     private fun createCategoriesAdapter(): CategoriesAdapter {
-        val categoriesAdapter = CategoriesAdapter(context) {
-            viewModel.setSelectedCategory(it)
-        }
+        val categoriesAdapter = CategoriesAdapter(
+            colorTextSelected = getColor(R.color.pink),
+            colorBackgroundSelected = getColor(R.color.light_pink),
+            colorTextUnselected = getColor(R.color.light_gray),
+            colorBackgroundUnselected = getColor(R.color.white)
+        ) { viewModel.setSelectedCategory(it) }
         with(binding.categories) {
             val orientation = RecyclerView.HORIZONTAL
             val divider = DividerItemDecoration(context, orientation)
@@ -118,21 +133,15 @@ class MenuFragment : Fragment() {
         return mealsAdapter
     }
 
-    private fun checkForInternetConnection(context: Context?): Boolean {
-        context ?: throw RuntimeException("Connection check requested before Context was created.")
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return when {
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            else -> false
-        }
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show()
     }
 
-    private fun updateData() {
-        viewModel.deleteData()
-        viewModel.loadData()
+    private fun showProgress(visible: Boolean) {
+        binding.progress.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    private fun getColor(colorResource: Int): Int {
+        return ContextCompat.getColor(requireContext(), colorResource)
     }
 }
